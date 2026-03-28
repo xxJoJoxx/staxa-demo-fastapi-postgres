@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}{% if contact and contact.id is defined %}Edit Contact{% else %}New Contact{% endif %}{% endblock %}
+
+{% block content %}
+<h2>{% if contact and contact.id is defined %}Edit Contact{% else %}New Contact{% endif %}</h2>
+
+{% if errors %}
+<div class="alert alert-error">
+    <ul>
+        {% for error in errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<form method="post" class="form">
+    <div class="field">
+        <label for="name">Name <span class="required">*</span></label>
+        <input type="text" id="name" name="name" value="{{ contact.name if contact else '' }}" required>
+    </div>
+    <div class="field">
+        <label for="email">Email <span class="required">*</span></label>
+        <input type="email" id="email" name="email" value="{{ contact.email if contact else '' }}" required>
+    </div>
+    <div class="field">
+        <label for="phone">Phone</label>
+        <input type="text" id="phone" name="phone" value="{{ contact.phone if contact else '' }}">
+    </div>
+    <div class="field">
+        <label for="notes">Notes</label>
+        <textarea id="notes" name="notes" rows="4">{{ contact.notes if contact else '' }}</textarea>
+    </div>
+    <div class="toolbar">
+        <button type="submit" class="btn btn-primary">{% if contact and contact.id is defined %}Update{% else %}Create{% endif %} Contact</button>
+        <a href="{% if contact and contact.id is defined %}/contacts/{{ contact.id }}{% else %}/{% endif %}" class="btn">Cancel</a>
+    </div>
+</form>
+{% endblock %}

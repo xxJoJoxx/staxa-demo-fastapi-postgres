@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}{{ contact.name }}{% endblock %}
+
+{% block content %}
+{% if request.query_params.get("message") %}
+<div class="alert">{{ request.query_params.get("message") }}</div>
+{% endif %}
+
+<div class="card">
+    <h2>{{ contact.name }}</h2>
+    <dl>
+        <dt>Email</dt>
+        <dd>{{ contact.email }}</dd>
+        <dt>Phone</dt>
+        <dd>{{ contact.phone or "—" }}</dd>
+        <dt>Notes</dt>
+        <dd>{{ contact.notes or "—" }}</dd>
+        <dt>Created</dt>
+        <dd>{{ contact.created_at.strftime("%B %d, %Y at %H:%M") }}</dd>
+        <dt>Updated</dt>
+        <dd>{{ contact.updated_at.strftime("%B %d, %Y at %H:%M") }}</dd>
+    </dl>
+    <div class="toolbar">
+        <a href="/contacts/{{ contact.id }}/edit" class="btn btn-primary">Edit</a>
+        <form method="post" action="/contacts/{{ contact.id }}/delete" class="inline" onsubmit="return confirm('Delete this contact?')">
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+        <a href="/" class="btn">Back to List</a>
+    </div>
+</div>
+{% endblock %}
